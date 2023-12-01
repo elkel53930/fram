@@ -11,18 +11,20 @@ fn main() {
     let mut peripherals = Peripherals::take().unwrap();
     let _ = fram_logger::init(&mut peripherals);
     let _ = fram_logger::set_panic_handler();
+    let _ = fram_logger::set_log();
 
     // 前回のログを表示
     fram_logger::show_log();
 
     // ログを書き込む
-    fprintln!("FRAM logger test");
+    log::info!("FRAM logger test");
+    log::info!("Info test");
+    log::error!("Error test");
 
     // 意図的なpanic
     let array: [u8; 3] = [1, 2, 3];
 
     for i in 0..5 {
-        fprintln!("array[{}] = {}", i, array[i]); // i = 3でpanic
-        println!("array[{}] = {}", i, array[i]);
+        log::info!("array[{}] = {}", i, array[i]); // i = 3でpanic
     }
 }

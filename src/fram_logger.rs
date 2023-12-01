@@ -181,3 +181,27 @@ fn fram_panic_handler(info: &PanicInfo) {
 pub fn set_panic_handler() {
     panic::set_hook(Box::new(fram_panic_handler));
 }
+
+use log::{Level, Metadata, Record};
+pub struct FramLogger;
+
+impl log::Log for FramLogger {
+    fn enabled(&self, metadata: &Metadata) -> bool {
+        metadata.level() <= Level::Info
+    }
+
+    fn log(&self, record: &Record) {
+        if self.enabled(record.metadata()) {
+            fprintln!("{} - {}", record.level(), record.args());
+            println!("{} - {}", record.level(), record.args());
+        }
+    }
+
+    fn flush(&self) {}
+}
+
+pub fn set_log() {
+    log::set_boxed_logger(Box::new(FramLogger))
+        .map(|()| log::set_max_level(log::LevelFilter::Info))
+        .unwrap();
+}
