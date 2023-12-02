@@ -26,7 +26,7 @@ fn i2c_master_init<'d>(
     Ok(driver)
 }
 
-fn write_fram_(adrs: u16, data: &[u8]) -> anyhow::Result<()> {
+fn write_30_byte(adrs: u16, data: &[u8]) -> anyhow::Result<()> {
     let mut buffer: [u8; 32] = [0; 32];
 
     // 最初の2byteがアドレスなので、一度に書き込めるデータは30byteまで
@@ -48,7 +48,7 @@ fn write_fram(adrs: u16, data: &[u8]) -> anyhow::Result<()> {
         if j > data.len() {
             j = data.len();
         }
-        write_fram_(adrs + i as u16, &data[i..j])?;
+        write_30_byte(adrs + i as u16, &data[i..j])?;
         i += 30;
     }
     Ok(())
