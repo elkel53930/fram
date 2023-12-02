@@ -200,8 +200,8 @@ impl log::Log for FramLogger {
     fn flush(&self) {}
 }
 
-pub fn set_log() {
+pub fn set_log(log_level: log::LevelFilter) {
     log::set_boxed_logger(Box::new(FramLogger))
-        .map(|()| log::set_max_level(log::LevelFilter::Info))
+        .map(|()| log::set_max_level(log_level))
         .unwrap();
 }

@@ -11,7 +11,7 @@ fn main() {
     let mut peripherals = Peripherals::take().unwrap();
     let _ = fram_logger::init(&mut peripherals);
     let _ = fram_logger::set_panic_handler();
-    let _ = fram_logger::set_log();
+    let _ = fram_logger::set_log(log::LevelFilter::Info);
 
     // 前回のログを表示
     fram_logger::show_log();
